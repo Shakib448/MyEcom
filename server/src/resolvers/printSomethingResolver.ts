@@ -3,8 +3,6 @@ import { IResolvers } from "@graphql-tools/utils";
 const resolverMap: IResolvers = {
   Mutation: {
     printSomething(_: void, args: any): string {
-      console.log("Enter");
-      console.log("Inserting in Database --  fake");
       return `Printing word: ${args.word}`;
     },
   },
