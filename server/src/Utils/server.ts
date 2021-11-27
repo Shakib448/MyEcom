@@ -1,7 +1,7 @@
 import { ApolloServer } from "apollo-server-express";
 import cors from "cors";
 import compression from "compression";
-import schema from "../Schema";
+import schema from "../schemas/Schema";
 import express from "express";
 
 const app = express();
