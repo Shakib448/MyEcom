@@ -1,4 +1,4 @@
-import graphQLRequest from "../utils/graphRequest";
+import graphQLRequest from "../Utils/graphRequest";
 
 it("should test graphQl structure by printing mutation word!", async () => {
   const requestResponse = await graphQLRequest(
