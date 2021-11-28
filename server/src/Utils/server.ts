@@ -3,10 +3,12 @@ import cors from "cors";
 import compression from "compression";
 import schema from "../schemas/Schema";
 import express from "express";
+import { connectDB } from "../config/db";
 
 const app = express();
 app.use(cors({ origin: "*" }));
 app.use(compression());
+connectDB().catch((err) => console.log(err));
 
 (async () => {
   const server = new ApolloServer({
