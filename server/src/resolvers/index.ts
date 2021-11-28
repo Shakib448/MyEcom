@@ -1,4 +1,3 @@
-import helloWorld from "./helloWorldResolver";
-import printSomething from "./printSomethingResolver";
+import User from "./User.resolver";
 
-export default [helloWorld, printSomething];
+export default [User];

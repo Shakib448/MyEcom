@@ -1,0 +1,24 @@
+type User {
+  id: ID!
+  email: String!
+  password: String!
+  confirmPassword: String!
+  firstName: String!
+  lastName: String!
+  company: String
+  phoneNumber: String
+  address: String!
+  city: String!
+  country: String!
+  state: String!
+  zip: String!
+  location: String!
+}
+
+type Query {
+  getAllUsers: [User!]!
+}
+
+type Mutation {
+  userCreate(email: String!, password: String!): User
+}
