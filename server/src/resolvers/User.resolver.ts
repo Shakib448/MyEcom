@@ -5,8 +5,11 @@ const resolverMap: IResolvers = {
     getAllUsers: () => {},
   },
   Mutation: {
-    userCreate: (_: void, args: any): any => {
-      return args;
+    userCreate: (_: void): any => {
+      return {
+        success: true,
+        message: "User created successfully",
+      };
     },
   },
 };
