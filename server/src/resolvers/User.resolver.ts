@@ -5,11 +5,12 @@ const resolverMap: IResolvers = {
     getAllUsers: () => {},
   },
   Mutation: {
-    userCreate: (_: void, args: any, context: any): any => {
-      if (context.res.statusCode === 200) {
-        return { message: "Ok" };
-      }
-      return args;
+    userCreate: (_: void, args: any): any => {
+      return {
+        success: true,
+        message: "User created successfully",
+        user: args,
+      };
     },
   },
 };
