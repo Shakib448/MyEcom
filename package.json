@@ -9,11 +9,6 @@
     "husky:test": "npm run test:server --prefix ./server",
     "husky-install": "husky install"
   },
-  "lint-staged": {
-    "server/src/**/*.{ts,tsx}": [
-      "npm run test --prefix ./server"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shakib448/MyEcom.git"
@@ -27,7 +22,6 @@
   "homepage": "https://github.com/Shakib448/MyEcom#readme",
   "devDependencies": {
     "husky": "^7.0.4",
-    "lint-staged": "^12.1.2",
     "ts-node": "^10.4.0"
   }
 }
