@@ -9,7 +9,7 @@
     "husky-install": "husky install"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "server/src/**/*.{ts,tsx}": [
       "yarn server:test"
     ]
   },
