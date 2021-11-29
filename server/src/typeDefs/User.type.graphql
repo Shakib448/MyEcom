@@ -5,8 +5,7 @@ type User {
   confirmPassword: String!
   firstName: String!
   lastName: String!
-  company: String
-  phoneNumber: String
+  phoneNumber: String!
   address: String!
   city: String!
   country: String!
