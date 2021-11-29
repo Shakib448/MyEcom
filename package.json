@@ -10,7 +10,7 @@
   },
   "lint-staged": {
     "server/src/**/*.{ts,tsx}": [
-      "server:test"
+      "npm run server:test"
     ]
   },
   "repository": {
