@@ -16,6 +16,7 @@ export default interface UserInterface {
 }
 
 export const userValidationSchema = Joi.object({
+  id: Joi.string(),
   firstName: Joi.string().label("First Name").min(3).max(50).required(),
   lastName: Joi.string().label("Last Name").min(3).max(50).required(),
   email: Joi.string().label("Email").email().required(),
