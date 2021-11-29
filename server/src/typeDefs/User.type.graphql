@@ -29,6 +29,21 @@ type CreateUserResponse implements MutationResponse {
   user: User
 }
 
+input UserCreate {
+  id: ID!
+  email: String!
+  password: String!
+  confirmPassword: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  address: String!
+  city: String!
+  country: String!
+  state: String!
+  zip: String!
+  location: String!
+}
 type Mutation {
-  userCreate(email: String!, password: String!): CreateUserResponse
+  userCreate(content: UserCreate!): CreateUserResponse
 }
