@@ -1,0 +1,27 @@
+{
+  "name": "myecom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run dev --prefix ./server",
+    "server:test": "npm run test --prefix ./server",
+    "husky:test": "npm run test:server --prefix ./server",
+    "husky-install": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shakib448/MyEcom.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shakib448/MyEcom/issues"
+  },
+  "homepage": "https://github.com/Shakib448/MyEcom#readme",
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "ts-node": "^10.4.0"
+  }
+}

@@ -1,4 +1,3 @@
-import * as helloWorld from "./helloWorld.graphql";
-import * as printSomething from "./printSomething.graphql";
+import * as User from "./User.type.graphql";
 
-export default [helloWorld, printSomething];
+export default [User];
