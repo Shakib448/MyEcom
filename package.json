@@ -6,7 +6,13 @@
   "scripts": {
     "server": "npm run dev --prefix ./server",
     "server:test": "npm run test --prefix ./server",
-    "husky-install": "husky-install"
+    "husky-install": "husky install"
+  },
+  "lint-staged": "server:test",
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint-staged"
+    }
   },
   "repository": {
     "type": "git",
