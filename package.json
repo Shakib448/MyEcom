@@ -6,6 +6,7 @@
   "scripts": {
     "server": "npm run dev --prefix ./server",
     "server:test": "npm run test --prefix ./server",
+    "husky:test": "npm run test:server --prefix ./server",
     "husky-install": "husky install"
   },
   "lint-staged": {
