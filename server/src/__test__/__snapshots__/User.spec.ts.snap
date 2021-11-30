@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User testing User will be created with success message 1`] = `
+Object {
+  "message": "User created successfully",
+  "success": true,
+}
+`;
