@@ -5,7 +5,7 @@ import graphQLRequest from "../Utils/graphRequest";
 describe("User testing", () => {
   beforeAll(async () => {
     await connectDB();
-    await User.remove();
+    await User.deleteOne();
   });
   afterAll(async () => {
     await stopDB();
