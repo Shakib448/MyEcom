@@ -1,15 +1,19 @@
-import { stopDB } from "../config/db";
+import { connectDB, stopDB } from "../config/db";
+import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphRequest";
 
 describe("User testing", () => {
+  beforeAll(async () => {
+    await connectDB();
+    await User.remove();
+  });
   afterAll(async () => {
     await stopDB();
   });
   it("User will be created with success message", async () => {
     const res = await graphQLRequest(`mutation UserCreate {
       userCreate(
-        id: "1"
-        email: "shakib@test.com"
+        email: "shakib@gmail.com"
         password: "12345678"
         confirmPassword: "12345678"
         firstName: "muktadir"
@@ -24,11 +28,24 @@ describe("User testing", () => {
       ) {
         message
         success
+        user {
+          id
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+        }
       }
     }`);
 
     expect(res.body.data.userCreate.message).toBe("User created successfully");
     expect(res.body.data.userCreate.success).toBe(true);
-    expect(res.body.data.userCreate).toMatchSnapshot();
+    expect(res.body.data.userCreate.user).toBeInstanceOf(Object);
   });
 });
