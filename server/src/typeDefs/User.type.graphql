@@ -1,8 +1,8 @@
 type User {
   id: ID!
   email: String!
-  password: String!
-  confirmPassword: String!
+  password: String
+  confirmPassword: String
   firstName: String!
   lastName: String!
   phoneNumber: String!
@@ -12,6 +12,7 @@ type User {
   state: String!
   zip: String!
   location: String!
+  token: String
 }
 
 type Query {
@@ -21,6 +22,7 @@ type Query {
 interface MutationResponse {
   success: Boolean!
   message: String!
+  user: User
 }
 
 type CreateUserResponse implements MutationResponse {
@@ -30,5 +32,18 @@ type CreateUserResponse implements MutationResponse {
 }
 
 type Mutation {
-  userCreate(email: String!, password: String!): CreateUserResponse
+  userCreate(
+    email: String!
+    password: String!
+    confirmPassword: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String!
+    address: String!
+    city: String!
+    country: String!
+    state: String!
+    zip: String!
+    location: String!
+  ): CreateUserResponse
 }

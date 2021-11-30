@@ -1,4 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcryptjs";
+
 import UserInterface from "../interface/User.interface";
 
 const userSchema = new Schema<UserInterface>(
@@ -7,7 +9,6 @@ const userSchema = new Schema<UserInterface>(
     lastName: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    confirmPassword: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
@@ -21,6 +22,19 @@ const userSchema = new Schema<UserInterface>(
     versionKey: false,
   }
 );
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 
 const User = mongoose.model("User", userSchema);
 
