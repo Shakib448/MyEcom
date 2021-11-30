@@ -13,17 +13,17 @@ describe("User testing", () => {
   it("User will be created with success message", async () => {
     const res = await graphQLRequest(`mutation UserCreate {
       userCreate(
-        email: "shakib@gmail.com"
+        email: "test@test.com"
         password: "12345678"
         confirmPassword: "12345678"
-        firstName: "muktadir"
-        lastName: "ahamed"
+        firstName: "testFirst name"
+        lastName: "Test"
         phoneNumber: "1234567"
-        address: "mirpur"
-        city: "Dhaka"
-        country: "Bangladesh"
-        state: "mirpur"
-        location: "BD"
+        address: "test"
+        city: "test"
+        country: "test"
+        state: "test"
+        location: "test"
         zip: "12345"
       ) {
         message
