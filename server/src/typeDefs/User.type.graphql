@@ -61,4 +61,6 @@ type Mutation {
     zip: String!
     location: String!
   ): CreateUserResponse
+
+  userById(id: ID!): User
 }
