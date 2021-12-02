@@ -25,7 +25,7 @@ interface MutationResponse {
   user: User
 }
 
-type CreateUserResponse implements MutationResponse {
+type UserResponse implements MutationResponse {
   success: Boolean!
   message: String!
   user: User
@@ -45,5 +45,23 @@ type Mutation {
     state: String!
     zip: String!
     location: String!
-  ): CreateUserResponse
+  ): UserResponse
+
+  updateUser(
+    email: String!
+    password: String!
+    confirmPassword: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String!
+    address: String!
+    city: String!
+    country: String!
+    state: String!
+    zip: String!
+    location: String!
+  ): UserResponse
+
+  userById(id: ID!): User
+  userDeleteById(id: ID!): UserResponse
 }
