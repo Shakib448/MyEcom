@@ -5,7 +5,7 @@ import graphQLRequest from "../Utils/graphRequest";
 describe("User testing", () => {
   beforeAll(async () => {
     await connectDB();
-    await User.deleteOne();
+    await User.deleteMany();
   });
   afterAll(async () => {
     await stopDB();
@@ -14,6 +14,7 @@ describe("User testing", () => {
   it("Module should be define", () => {
     expect(User).toBeDefined();
   });
+
   it("User will be created with success message", async () => {
     const req = await graphQLRequest(`mutation UserCreate {
       userCreate(
@@ -90,5 +91,43 @@ describe("User testing", () => {
     expect(req.body.data.updateUser.message).toBe("User updated successfully");
     expect(req.body.data.updateUser.success).toBe(true);
     expect(req.body.data.updateUser.user).toBeInstanceOf(Object);
+  });
+
+  it("User array also findById object should be define", async () => {
+    const req = await graphQLRequest(`query GetAllUser {
+      getAllUsers {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        address
+        city
+        country
+        state
+        zip
+        location
+      }
+    }`);
+    expect(Array.isArray(req.body.data.getAllUsers)).toBe(true);
+
+    const userId = req.body.data.getAllUsers.map((item: any) => item.id);
+
+    const findById = await graphQLRequest(`mutation UserById {
+      userById(id: "${userId[0]}") {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        address
+        city
+        country
+        state
+        zip
+        location
+      }
+    }`);
+    expect(findById.body.data.userById).toBeInstanceOf(Object);
   });
 });
