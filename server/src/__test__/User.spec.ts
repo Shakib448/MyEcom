@@ -5,7 +5,7 @@ import graphQLRequest from "../Utils/graphRequest";
 describe("User testing", () => {
   beforeAll(async () => {
     await connectDB();
-    await User.deleteMany();
+    await User.deleteOne();
   });
   afterAll(async () => {
     await stopDB();
@@ -34,7 +34,6 @@ describe("User testing", () => {
         message
         success
         user {
-          id
           email
           firstName
           lastName
@@ -52,16 +51,17 @@ describe("User testing", () => {
     expect(req.body.data.userCreate.message).toBe("User created successfully");
     expect(req.body.data.userCreate.success).toBe(true);
     expect(req.body.data.userCreate.user).toBeInstanceOf(Object);
+    expect(req.body.data.userCreate).toMatchSnapshot();
   });
 
   it("User will be created with success message", async () => {
     const req = await graphQLRequest(`mutation UpdateUser {
       updateUser(
         email: "test@test.com"
-        password: "test12345678"
-        confirmPassword: "test12345678"
-        firstName: "testFirst name"
-        lastName: "Test"
+        password: "update123456"
+        confirmPassword: "update123456"
+        firstName: "update name"
+        lastName: "update"
         phoneNumber: "1234567"
         address: "test"
         city: "test"
@@ -73,7 +73,6 @@ describe("User testing", () => {
         message
         success
         user {
-          id
           email
           firstName
           lastName
@@ -91,9 +90,10 @@ describe("User testing", () => {
     expect(req.body.data.updateUser.message).toBe("User updated successfully");
     expect(req.body.data.updateUser.success).toBe(true);
     expect(req.body.data.updateUser.user).toBeInstanceOf(Object);
+    expect(req.body.data.updateUser).toMatchSnapshot();
   });
 
-  it("User array also findById object should be define", async () => {
+  it("User array also findById user should be define", async () => {
     const req = await graphQLRequest(`query GetAllUser {
       getAllUsers {
         id
@@ -129,5 +129,38 @@ describe("User testing", () => {
       }
     }`);
     expect(findById.body.data.userById).toBeInstanceOf(Object);
+  });
+
+  it("User should be delete with success message", async () => {
+    const req = await graphQLRequest(`query GetAllUser {
+      getAllUsers {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        address
+        city
+        country
+        state
+        zip
+        location
+      }
+    }`);
+
+    const userId = req.body.data.getAllUsers.map((item: any) => item.id);
+
+    const deleteUser = await graphQLRequest(`mutation UserDeleteById{
+      userDeleteById(id: "${userId[0]}") {
+        success
+        message
+      }
+    }`);
+    expect(deleteUser.body.data.userDeleteById).toBeInstanceOf(Object);
+    expect(deleteUser.body.data.userDeleteById.success).toBe(true);
+    expect(deleteUser.body.data.userDeleteById.message).toBe(
+      "User deleted successfully"
+    );
+    expect(deleteUser.body.data.userDeleteById).toMatchSnapshot();
   });
 });

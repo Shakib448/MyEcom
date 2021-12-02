@@ -88,10 +88,22 @@ const resolverMap: IResolvers = {
         };
       }
     },
-    userById: async (_: any, args: any) => {
+    userById: async (_: void, args: any) => {
       const user = await User.findById(args.id);
       if (user) {
         return user;
+      } else {
+        throw new UserInputError("User not found");
+      }
+    },
+    userDeleteById: async (_: void, args: any) => {
+      const user = await User.findById(args.id);
+      if (user) {
+        user.deleteOne();
+        return {
+          success: true,
+          message: "User deleted successfully",
+        };
       } else {
         throw new UserInputError("User not found");
       }
