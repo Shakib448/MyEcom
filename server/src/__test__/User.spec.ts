@@ -10,6 +10,10 @@ describe("User testing", () => {
   afterAll(async () => {
     await stopDB();
   });
+
+  it("Module should be define", () => {
+    expect(User).toBeDefined();
+  });
   it("User will be created with success message", async () => {
     const req = await graphQLRequest(`mutation UserCreate {
       userCreate(

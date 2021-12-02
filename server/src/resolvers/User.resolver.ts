@@ -7,8 +7,8 @@ import generateToken from "../Utils/generateToken";
 
 const resolverMap: IResolvers = {
   Query: {
-    getAllUsers: () => {
-      return User.find();
+    getAllUsers: async () => {
+      return await User.find();
     },
   },
   Mutation: {
