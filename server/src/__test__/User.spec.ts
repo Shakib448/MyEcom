@@ -63,11 +63,11 @@ describe("User testing", () => {
         firstName: "update name"
         lastName: "update"
         phoneNumber: "1234567"
-        address: "test"
-        city: "test"
-        country: "test"
-        state: "test"
-        location: "test"
+        address: "update address"
+        city: "update city"
+        country: "update country"
+        state: "update state"
+        location: "update location"
         zip: "12345"
       ) {
         message
