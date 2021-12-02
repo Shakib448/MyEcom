@@ -1,5 +1,4 @@
 import { ApolloServer } from "apollo-server-express";
-import cors from "cors";
 import compression from "compression";
 import schema from "../schemas/Schema";
 import express from "express";
