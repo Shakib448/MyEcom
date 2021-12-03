@@ -1,7 +1,10 @@
 import { IResolvers } from "@graphql-tools/utils";
 import { UserInputError } from "apollo-server-core";
 
-import { userValidationSchema } from "../interface/User.interface";
+import {
+  authUserValidation,
+  userValidationSchema,
+} from "../interface/User.interface";
 import User from "../models/User.model";
 import generateToken from "../Utils/generateToken";
 
@@ -12,6 +15,45 @@ const resolverMap: IResolvers = {
     },
   },
   Mutation: {
+    authUser: async (_: void, args: any) => {
+      const { error } = authUserValidation.validate(args, {
+        abortEarly: false,
+      });
+
+      if (error) {
+        throw new UserInputError(
+          "Failed to create a character due to validation error",
+          { validationError: error.details }
+        );
+      }
+      const user: any = await User.findOne({ email: args.email });
+
+      if (user && (await user.matchPassword(args.password))) {
+        return {
+          success: true,
+          message: "User logged in successfully",
+          user: {
+            id: user._id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            address: user.address,
+            city: user.city,
+            zip: user.zip,
+            location: user.location,
+            state: user.state,
+            country: user.country,
+            token: generateToken(user._id),
+          },
+        };
+      } else {
+        return {
+          success: false,
+          message: "Invalid email or password",
+        };
+      }
+    },
     userCreate: async (_: void, args: any) => {
       const { error } = userValidationSchema.validate(args, {
         abortEarly: false,

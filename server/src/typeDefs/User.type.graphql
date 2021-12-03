@@ -64,4 +64,5 @@ type Mutation {
 
   userById(id: ID!): User
   userDeleteById(id: ID!): UserResponse
+  authUser(email: String!, password: String!): UserResponse
 }

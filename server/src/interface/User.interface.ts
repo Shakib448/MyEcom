@@ -34,3 +34,8 @@ export const userValidationSchema = Joi.object({
   zip: Joi.string().label("Zip").required(),
   location: Joi.string().label("Location").required(),
 });
+
+export const authUserValidation = Joi.object({
+  email: Joi.string().label("Email").email().required(),
+  password: Joi.string().label("password").min(8).max(20).required(),
+});
