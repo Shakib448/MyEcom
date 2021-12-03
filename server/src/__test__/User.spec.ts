@@ -54,6 +54,33 @@ describe("User testing", () => {
     expect(req.body.data.userCreate).toMatchSnapshot();
   });
 
+  it("User will be logged in successfully with success message", async () => {
+    const req = await graphQLRequest(`mutation AuthUser {
+      authUser(email : "test@test.com" password : "12345678"){
+        message
+        success
+        user {
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+          token
+        }
+      }
+    }`);
+
+    expect(req.body.data.authUser.message).toBe("User logged in successfully");
+    expect(req.body.data.authUser.success).toBe(true);
+    expect(req.body.data.authUser.user.token).toBeDefined();
+    expect(req.body.data.authUser.user).toBeInstanceOf(Object);
+  });
+
   it("User will be created with success message", async () => {
     const req = await graphQLRequest(`mutation UpdateUser {
       updateUser(
