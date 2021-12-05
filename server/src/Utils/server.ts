@@ -1,13 +1,11 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApolloServer } from "apollo-server-express";
-import { AuthenticationError } from "apollo-server-core";
 import dotenv from "dotenv";
 import compression from "compression";
 import express from "express";
+import http from "http";
 
 import schema from "../schemas/Schema";
 import { connectDB } from "../config/db";
-import User from "../models/User.model";
 
 dotenv.config();
 
@@ -18,9 +16,7 @@ connectDB().catch((err) => console.log(err));
 (async () => {
   const server = new ApolloServer({
     schema,
-    context: async ({ req }: any) => {
-      return { req };
-    },
+    context: async ({ req, res }: any) => ({ req, res }),
   });
   await server.start();
   server.applyMiddleware({
