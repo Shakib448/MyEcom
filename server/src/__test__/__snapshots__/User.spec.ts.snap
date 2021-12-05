@@ -26,7 +26,7 @@ Object {
 }
 `;
 
-exports[`User testing User will be created with success message 2`] = `
+exports[`User testing User will be updated with Bearer token also find by id with success message 1`] = `
 Object {
   "message": "User updated successfully",
   "success": true,
