@@ -100,10 +100,6 @@ const resolverMap: IResolvers = {
 
       const { user }: any = await getAuthorizedUser(req);
 
-      if (!user) {
-        throw new UserInputError("User not found");
-      }
-
       if (user) {
         user.email = args.email || user.email;
         user.firstName = args.firstName || user.firstName;
@@ -140,8 +136,9 @@ const resolverMap: IResolvers = {
         };
       }
     },
-    userById: async (_: void, args: any) => {
-      const user = await User.findById(args.id);
+    getUserProfile: async (_: void, args: void, { req }: any) => {
+      const { user }: any = await getAuthorizedUser(req);
+
       if (user) {
         return user;
       } else {

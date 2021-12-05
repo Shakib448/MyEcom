@@ -4,7 +4,6 @@ import graphQLRequest from "../Utils/graphRequest";
 
 describe("User testing", () => {
   let token: string | undefined;
-  console.log("TOken", token);
   beforeAll(async () => {
     await connectDB();
     await User.deleteOne();
@@ -150,41 +149,81 @@ describe("User testing", () => {
   });
 
   it("User array also findById user should be define", async () => {
-    const req = await graphQLRequest(`query GetAllUser {
-      getAllUsers {
-        id
-        email
-        firstName
-        lastName
-        phoneNumber
-        address
-        city
-        country
-        state
-        zip
-        location
+    const req = await graphQLRequest(
+      `mutation UserCreate {
+      userCreate(
+        email: "test@test.com"
+        password: "12345678"
+        confirmPassword: "12345678"
+        firstName: "testFirst name"
+        lastName: "Test"
+        phoneNumber: "1234567"
+        address: "test"
+        city: "test"
+        country: "test"
+        state: "test"
+        location: "test"
+        zip: "12345"
+      ) {
+        message
+        success
+        user {
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+        }
       }
-    }`);
-    expect(Array.isArray(req.body.data.getAllUsers)).toBe(true);
-
-    const userId = req.body.data.getAllUsers.map((item: any) => item.id);
-
-    const findById = await graphQLRequest(`mutation UserById {
-      userById(id: "${userId[0]}") {
-        id
-        email
-        firstName
-        lastName
-        phoneNumber
-        address
-        city
-        country
-        state
-        zip
-        location
+    }`
+    );
+    const resToken = await graphQLRequest(
+      `mutation AuthUser {
+      authUser(email : "test@test.com" password : "12345678"){
+        message
+        success
+        user {
+          id
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+          token
+        }
       }
-    }`);
-    expect(findById.body.data.userById).toBeInstanceOf(Object);
+    }`
+    );
+    console.log(req.body.data.userCreate);
+    // const findById = await graphQLRequest(
+    //   `mutation GetUserProfile {
+    //     getUserProfile(id: "${resToken.body.data.authUser.user.id}") {
+    //     id
+    //     email
+    //     firstName
+    //     lastName
+    //     phoneNumber
+    //     address
+    //     city
+    //     country
+    //     state
+    //     zip
+    //     location
+    //   }
+    // }`,
+    //   resToken.body.data.authUser.user.token
+    // );
+    // expect(findById.body.data.getUserProfile).toBeInstanceOf(Object);
   });
 
   it("User should be delete with success message", async () => {

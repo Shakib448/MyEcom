@@ -12,18 +12,16 @@ const getAuthorizedUser = async (req: any) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-      const { id }: any | JwtPayload = jwt.verify(
-        token,
-        `${process.env.JWT_SECRET}`
-      );
-      const user = await User.findById(id).select("-password");
-      return { user };
-    } catch (error) {
-      console.log(error);
+    token = req.headers.authorization.split(" ")[1];
+    const { id }: any | JwtPayload = jwt.verify(
+      token,
+      `${process.env.JWT_SECRET}`
+    );
+    const user = await User.findById(id).select("-password");
+    if (!user) {
       throw new AuthenticationError("Not authorized, no token found");
     }
+    return { user };
   }
 
   if (!token) {
