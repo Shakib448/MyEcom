@@ -3,6 +3,7 @@ import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphRequest";
 
 describe("User testing", () => {
+  let token: string | undefined;
   beforeAll(async () => {
     await connectDB();
     await User.deleteOne();
@@ -16,7 +17,8 @@ describe("User testing", () => {
   });
 
   it("User will be created with success message", async () => {
-    const req = await graphQLRequest(`mutation UserCreate {
+    const req = await graphQLRequest(
+      `mutation UserCreate {
       userCreate(
         email: "test@test.com"
         password: "12345678"
@@ -46,8 +48,8 @@ describe("User testing", () => {
           country
         }
       }
-    }`);
-
+    }`
+    );
     expect(req.body.data.userCreate.message).toBe("User created successfully");
     expect(req.body.data.userCreate.success).toBe(true);
     expect(req.body.data.userCreate.user).toBeInstanceOf(Object);
@@ -55,7 +57,8 @@ describe("User testing", () => {
   });
 
   it("User will be logged in successfully with success message", async () => {
-    const req = await graphQLRequest(`mutation AuthUser {
+    const req = await graphQLRequest(
+      `mutation AuthUser {
       authUser(email : "test@test.com" password : "12345678"){
         message
         success
@@ -73,7 +76,8 @@ describe("User testing", () => {
           token
         }
       }
-    }`);
+    }`
+    );
 
     expect(req.body.data.authUser.message).toBe("User logged in successfully");
     expect(req.body.data.authUser.success).toBe(true);
@@ -81,8 +85,30 @@ describe("User testing", () => {
     expect(req.body.data.authUser.user).toBeInstanceOf(Object);
   });
 
-  it("User will be created with success message", async () => {
-    const req = await graphQLRequest(`mutation UpdateUser {
+  it("User will be updated with Bearer token also find by id with success message", async () => {
+    const resToken = await graphQLRequest(
+      `mutation AuthUser {
+      authUser(email : "test@test.com" password : "12345678"){
+        message
+        success
+        user {
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+          token
+        }
+      }
+    }`
+    );
+    const req = await graphQLRequest(
+      `mutation UpdateUser {
       updateUser(
         email: "test@test.com"
         password: "update123456"
@@ -112,17 +138,18 @@ describe("User testing", () => {
           country
         }
       }
-    }`);
+    }`,
+      resToken.body.data.authUser.user.token
+    );
 
     expect(req.body.data.updateUser.message).toBe("User updated successfully");
     expect(req.body.data.updateUser.success).toBe(true);
     expect(req.body.data.updateUser.user).toBeInstanceOf(Object);
     expect(req.body.data.updateUser).toMatchSnapshot();
-  });
 
-  it("User array also findById user should be define", async () => {
-    const req = await graphQLRequest(`query GetAllUser {
-      getAllUsers {
+    const findById = await graphQLRequest(
+      `mutation GetUserProfile {
+        getUserProfile(id: "${resToken.body.data.authUser.user.id}") {
         id
         email
         firstName
@@ -135,27 +162,10 @@ describe("User testing", () => {
         zip
         location
       }
-    }`);
-    expect(Array.isArray(req.body.data.getAllUsers)).toBe(true);
-
-    const userId = req.body.data.getAllUsers.map((item: any) => item.id);
-
-    const findById = await graphQLRequest(`mutation UserById {
-      userById(id: "${userId[0]}") {
-        id
-        email
-        firstName
-        lastName
-        phoneNumber
-        address
-        city
-        country
-        state
-        zip
-        location
-      }
-    }`);
-    expect(findById.body.data.userById).toBeInstanceOf(Object);
+    }`,
+      resToken.body.data.authUser.user.token
+    );
+    expect(findById.body.data.getUserProfile).toBeInstanceOf(Object);
   });
 
   it("User should be delete with success message", async () => {

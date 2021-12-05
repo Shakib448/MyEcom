@@ -5,6 +5,7 @@ import {
   authUserValidation,
   userValidationSchema,
 } from "../interface/User.interface";
+import getAuthorizedUser from "../middleware/authMiddleware";
 import User from "../models/User.model";
 import generateToken from "../Utils/generateToken";
 
@@ -85,7 +86,7 @@ const resolverMap: IResolvers = {
         };
       }
     },
-    updateUser: async (_: void, args: any) => {
+    updateUser: async (_: void, args: any, { req }: any) => {
       const { error } = userValidationSchema.validate(args, {
         abortEarly: false,
       });
@@ -97,22 +98,18 @@ const resolverMap: IResolvers = {
         );
       }
 
-      const user: any = await User.findOne({ email: args.email });
-
-      if (!user) {
-        throw new UserInputError("User not found");
-      }
+      const { user }: any = await getAuthorizedUser(req);
 
       if (user) {
-        user.email = args.email;
-        user.firstName = args.firstName;
-        user.lastName = args.lastName;
-        user.phoneNumber = args.phoneNumber;
-        user.address = args.address;
-        user.city = args.city;
-        user.country = args.country;
-        user.state = args.state;
-        user.location = args.location;
+        user.email = args.email || user.email;
+        user.firstName = args.firstName || user.firstName;
+        user.lastName = args.lastName || user.lastName;
+        user.phoneNumber = args.phoneNumber || user.phoneNumber;
+        user.address = args.address || user.address;
+        user.city = args.city || user.city;
+        user.country = args.country || user.country;
+        user.state = args.state || user.state;
+        user.location = args.location || user.location;
         if (args?.password) {
           user.password = args.password;
         }
@@ -123,15 +120,25 @@ const resolverMap: IResolvers = {
           success: true,
           message: "User updated successfully",
           user: {
-            ...args,
             id: updatedUser._id,
+            email: updatedUser.email,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            phoneNumber: updatedUser.phoneNumber,
+            address: updatedUser.address,
+            city: updatedUser.city,
+            zip: updatedUser.zip,
+            location: updatedUser.location,
+            state: updatedUser.state,
+            country: updatedUser.country,
             token: generateToken(updatedUser._id),
           },
         };
       }
     },
-    userById: async (_: void, args: any) => {
-      const user = await User.findById(args.id);
+    getUserProfile: async (_: void, args: void, { req }: any) => {
+      const { user }: any = await getAuthorizedUser(req);
+
       if (user) {
         return user;
       } else {
