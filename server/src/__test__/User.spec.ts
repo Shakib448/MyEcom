@@ -79,120 +79,144 @@ describe("User testing", () => {
       }
     }`
     );
-    console.log(req.body.data.authUser.user.token);
+
     expect(req.body.data.authUser.message).toBe("User logged in successfully");
     expect(req.body.data.authUser.success).toBe(true);
     expect(req.body.data.authUser.user.token).toBeDefined();
     expect(req.body.data.authUser.user).toBeInstanceOf(Object);
   });
 
-  // it("User will be created with success message", async () => {
-  //   const req = await graphQLRequest(`mutation UpdateUser {
-  //     updateUser(
-  //       email: "test@test.com"
-  //       password: "update123456"
-  //       confirmPassword: "update123456"
-  //       firstName: "update name"
-  //       lastName: "update"
-  //       phoneNumber: "1234567"
-  //       address: "update address"
-  //       city: "update city"
-  //       country: "update country"
-  //       state: "update state"
-  //       location: "update location"
-  //       zip: "12345"
-  //     ) {
-  //       message
-  //       success
-  //       user {
-  //         email
-  //         firstName
-  //         lastName
-  //         phoneNumber
-  //         address
-  //         city
-  //         zip
-  //         location
-  //         state
-  //         country
-  //       }
-  //     }
-  //   }`);
+  it("User will be created with success message", async () => {
+    const resToken = await graphQLRequest(
+      `mutation AuthUser {
+      authUser(email : "test@test.com" password : "12345678"){
+        message
+        success
+        user {
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+          token
+        }
+      }
+    }`
+    );
+    const req = await graphQLRequest(
+      `mutation UpdateUser {
+      updateUser(
+        email: "test@test.com"
+        password: "update123456"
+        confirmPassword: "update123456"
+        firstName: "update name"
+        lastName: "update"
+        phoneNumber: "1234567"
+        address: "update address"
+        city: "update city"
+        country: "update country"
+        state: "update state"
+        location: "update location"
+        zip: "12345"
+      ) {
+        message
+        success
+        user {
+          email
+          firstName
+          lastName
+          phoneNumber
+          address
+          city
+          zip
+          location
+          state
+          country
+        }
+      }
+    }`,
+      resToken.body.data.authUser.user.token
+    );
 
-  //   expect(req.body.data.updateUser.message).toBe("User updated successfully");
-  //   expect(req.body.data.updateUser.success).toBe(true);
-  //   expect(req.body.data.updateUser.user).toBeInstanceOf(Object);
-  //   expect(req.body.data.updateUser).toMatchSnapshot();
-  // });
+    expect(req.body.data.updateUser.message).toBe("User updated successfully");
+    expect(req.body.data.updateUser.success).toBe(true);
+    expect(req.body.data.updateUser.user).toBeInstanceOf(Object);
+    expect(req.body.data.updateUser).toMatchSnapshot();
+  });
 
-  // it("User array also findById user should be define", async () => {
-  //   const req = await graphQLRequest(`query GetAllUser {
-  //     getAllUsers {
-  //       id
-  //       email
-  //       firstName
-  //       lastName
-  //       phoneNumber
-  //       address
-  //       city
-  //       country
-  //       state
-  //       zip
-  //       location
-  //     }
-  //   }`);
-  //   expect(Array.isArray(req.body.data.getAllUsers)).toBe(true);
+  it("User array also findById user should be define", async () => {
+    const req = await graphQLRequest(`query GetAllUser {
+      getAllUsers {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        address
+        city
+        country
+        state
+        zip
+        location
+      }
+    }`);
+    expect(Array.isArray(req.body.data.getAllUsers)).toBe(true);
 
-  //   const userId = req.body.data.getAllUsers.map((item: any) => item.id);
+    const userId = req.body.data.getAllUsers.map((item: any) => item.id);
 
-  //   const findById = await graphQLRequest(`mutation UserById {
-  //     userById(id: "${userId[0]}") {
-  //       id
-  //       email
-  //       firstName
-  //       lastName
-  //       phoneNumber
-  //       address
-  //       city
-  //       country
-  //       state
-  //       zip
-  //       location
-  //     }
-  //   }`);
-  //   expect(findById.body.data.userById).toBeInstanceOf(Object);
-  // });
+    const findById = await graphQLRequest(`mutation UserById {
+      userById(id: "${userId[0]}") {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        address
+        city
+        country
+        state
+        zip
+        location
+      }
+    }`);
+    expect(findById.body.data.userById).toBeInstanceOf(Object);
+  });
 
-  // it("User should be delete with success message", async () => {
-  //   const req = await graphQLRequest(`query GetAllUser {
-  //     getAllUsers {
-  //       id
-  //       email
-  //       firstName
-  //       lastName
-  //       phoneNumber
-  //       address
-  //       city
-  //       country
-  //       state
-  //       zip
-  //       location
-  //     }
-  //   }`);
+  it("User should be delete with success message", async () => {
+    const req = await graphQLRequest(`query GetAllUser {
+      getAllUsers {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        address
+        city
+        country
+        state
+        zip
+        location
+      }
+    }`);
 
-  //   const userId = req.body.data.getAllUsers.map((item: any) => item.id);
+    const userId = req.body.data.getAllUsers.map((item: any) => item.id);
 
-  //   const deleteUser = await graphQLRequest(`mutation UserDeleteById{
-  //     userDeleteById(id: "${userId[0]}") {
-  //       success
-  //       message
-  //     }
-  //   }`);
-  //   expect(deleteUser.body.data.userDeleteById).toBeInstanceOf(Object);
-  //   expect(deleteUser.body.data.userDeleteById.success).toBe(true);
-  //   expect(deleteUser.body.data.userDeleteById.message).toBe(
-  //     "User deleted successfully"
-  //   );
-  //   expect(deleteUser.body.data.userDeleteById).toMatchSnapshot();
-  // });
+    const deleteUser = await graphQLRequest(`mutation UserDeleteById{
+      userDeleteById(id: "${userId[0]}") {
+        success
+        message
+      }
+    }`);
+    expect(deleteUser.body.data.userDeleteById).toBeInstanceOf(Object);
+    expect(deleteUser.body.data.userDeleteById.success).toBe(true);
+    expect(deleteUser.body.data.userDeleteById.message).toBe(
+      "User deleted successfully"
+    );
+    expect(deleteUser.body.data.userDeleteById).toMatchSnapshot();
+  });
 });

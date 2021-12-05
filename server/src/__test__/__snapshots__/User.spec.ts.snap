@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`User testing User should be delete with success message 1`] = `
+Object {
+  "message": "User deleted successfully",
+  "success": true,
+}
+`;
+
 exports[`User testing User will be created with success message 1`] = `
 Object {
   "message": "User created successfully",
@@ -14,6 +21,25 @@ Object {
     "location": "test",
     "phoneNumber": "1234567",
     "state": "test",
+    "zip": "12345",
+  },
+}
+`;
+
+exports[`User testing User will be created with success message 2`] = `
+Object {
+  "message": "User updated successfully",
+  "success": true,
+  "user": Object {
+    "address": "update address",
+    "city": "update city",
+    "country": "update country",
+    "email": "test@test.com",
+    "firstName": "update name",
+    "lastName": "update",
+    "location": "update location",
+    "phoneNumber": "1234567",
+    "state": "update state",
     "zip": "12345",
   },
 }
