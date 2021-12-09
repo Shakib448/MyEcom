@@ -75,15 +75,6 @@ const productSchema = new Schema<ProductInterface>(
   }
 );
 
-// productSchema.method("toClient", function (): any {
-//   let obj = this.toObject();
-
-//   obj.id = obj._id;
-//   delete obj._id;
-
-//   return obj;
-// });
-
 const Product = mongoose.model("Product", productSchema);
 
 export default Product;
