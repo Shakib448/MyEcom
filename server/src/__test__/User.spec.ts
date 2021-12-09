@@ -1,6 +1,7 @@
 import { connectDB, stopDB } from "../config/db";
 import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphRequest";
+import users from "../data/users";
 
 describe("User testing", () => {
   beforeAll(async () => {
@@ -8,6 +9,7 @@ describe("User testing", () => {
     await User.deleteMany();
   });
   afterAll(async () => {
+    await User.insertMany(users);
     await stopDB();
   });
 
