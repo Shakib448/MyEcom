@@ -1,7 +1,6 @@
 import { connectDB, stopDB } from "../config/db";
-import Product from "../models/Product.model";
+import ProductInterface from "../interface/Product.interface";
 import graphQLRequest from "../Utils/graphQLRequest";
-import products from "../data/products.data";
 
 describe("Product Testing", () => {
   beforeAll(async () => {
@@ -14,7 +13,7 @@ describe("Product Testing", () => {
   it("fetch all products with success", async () => {
     const res = await graphQLRequest(`query {
         getAllProducts {
-        id
+          id
           name
           image
           description
@@ -27,18 +26,6 @@ describe("Product Testing", () => {
         }
       }`);
 
-    res.body.data.getAllProducts.map((item: any) => {
-      expect(typeof item.id).toBe("string");
-      expect(typeof item.name).toBe("string");
-      expect(typeof item.image).toBe("string");
-      expect(typeof item.description).toBe("string");
-      expect(typeof item.brand).toBe("string");
-      expect(typeof item.category).toBe("string");
-      expect(typeof item.price).toBe("number");
-      expect(typeof item.countInStock).toBe("number");
-      expect(typeof item.rating).toBe("number");
-      expect(typeof item.numReviews).toBe("number");
-    });
     expect(Array.isArray(res.body.data.getAllProducts)).toBe(true);
     expect(res.statusCode).toBe(200);
   });
