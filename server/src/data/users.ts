@@ -27,7 +27,6 @@ const users = [
     country: "Bangladesh",
     zip: "1216",
     location: "House-9",
-    isAdmin: true,
   },
   {
     firstName: "Muktadir",
@@ -41,7 +40,6 @@ const users = [
     country: "Bangladesh",
     zip: "1216",
     location: "House-9",
-    isAdmin: true,
   },
 ];
 

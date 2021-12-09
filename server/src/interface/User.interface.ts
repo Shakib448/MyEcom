@@ -34,7 +34,7 @@ export const userValidationSchema = Joi.object({
   state: Joi.string().label("State").required(),
   zip: Joi.string().label("Zip").required(),
   location: Joi.string().label("Location").required(),
-  isAdmin: Joi.boolean().label("Is Admin"),
+  isAdmin: Joi.boolean(),
 });
 
 export const authUserValidation = Joi.object({
