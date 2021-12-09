@@ -3,7 +3,6 @@ import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphRequest";
 
 describe("User testing", () => {
-  let token: string | undefined;
   beforeAll(async () => {
     await connectDB();
     await User.deleteMany();
