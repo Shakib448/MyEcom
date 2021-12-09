@@ -1,0 +1,28 @@
+type Product {
+  id: ID!
+  name: String!
+  image: String!
+  description: String!
+  brand: String!
+  category: String!
+  price: Float!
+  countInStock: Float!
+  rating: Float!
+  numReviews: Float!
+}
+
+type Query {
+  getAllProducts: [Product!]!
+}
+
+interface ProductMutationResponse {
+  success: Boolean!
+  message: String!
+  product: Product
+}
+
+type ProductResponse implements ProductMutationResponse {
+  success: Boolean!
+  message: String!
+  product: Product
+}

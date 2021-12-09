@@ -20,13 +20,13 @@ type Query {
   getAllUsers: [User!]!
 }
 
-interface MutationResponse {
+interface UserMutationResponse {
   success: Boolean!
   message: String!
   user: User
 }
 
-type UserResponse implements MutationResponse {
+type UserResponse implements UserMutationResponse {
   success: Boolean!
   message: String!
   user: User
