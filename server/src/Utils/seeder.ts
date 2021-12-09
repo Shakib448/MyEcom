@@ -1,4 +1,4 @@
-import users from "../data/users";
+import users from "../data/users.data";
 import "colors";
 import User from "../models/User.model";
 import { connectDB } from "../config/db";
