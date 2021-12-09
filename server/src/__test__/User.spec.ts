@@ -1,6 +1,6 @@
 import { connectDB, stopDB } from "../config/db";
 import User from "../models/User.model";
-import graphQLRequest from "../Utils/graphRequest";
+import graphQLRequest from "../Utils/graphQLRequest";
 import users from "../data/users.data";
 
 describe("User testing", () => {
