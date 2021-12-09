@@ -1,14 +1,15 @@
 import { connectDB, stopDB } from "../config/db";
 import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphRequest";
+import users from "../data/users.data";
 
 describe("User testing", () => {
-  let token: string | undefined;
   beforeAll(async () => {
     await connectDB();
-    await User.deleteOne();
+    await User.deleteMany();
   });
   afterAll(async () => {
+    await User.insertMany(users);
     await stopDB();
   });
 

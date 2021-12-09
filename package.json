@@ -6,7 +6,9 @@
   "scripts": {
     "server": "npm run dev --prefix ./server",
     "server:test": "npm run test --prefix ./server",
-    "husky:test": "npm run test:server --prefix ./server",
+    "husky:server:test": "npm run test:server --prefix ./server",
+    "data:import": "npm run data:import --prefix ./server",
+    "data:destroy": "npm run data:destroy --prefix ./server",
     "husky-install": "husky install"
   },
   "repository": {
