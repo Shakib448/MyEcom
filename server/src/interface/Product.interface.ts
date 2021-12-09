@@ -1,18 +1,21 @@
 import Joi from "joi";
 
-export default interface UserInterface {
+export default interface ProductInterface {
+  user: any;
   name: string;
   image: string;
   description: string;
+  cloudinary_id: string;
   brand: string;
   category: string;
   price: number;
   countInStock: number;
   rating: number;
   numReviews: number;
+  reviews: any[];
 }
 
-export const userValidationSchema = Joi.object({
+export const productValidationSchema = Joi.object({
   id: Joi.string(),
   name: Joi.string().label("Name").min(3).max(50).required(),
   image: Joi.string().label("Image").required(),
