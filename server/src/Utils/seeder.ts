@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
-import "colors";
 import users from "../data/users";
+import "colors";
 import User from "../models/User.model";
 import { connectDB } from "../config/db";
 
@@ -11,9 +10,9 @@ const importData = async () => {
 
   await User.insertMany(users);
 
-  console.log("Data imported".green.inverse);
-  process.exit();
   try {
+    console.log("Data imported".green.inverse);
+    process.exit();
   } catch (error) {
     console.log(`${error}`.red.inverse);
   }

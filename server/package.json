@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
     "test": "jest --watchAll --runInBand",
     "test:server": "jest --runInBand",
-    "data:import": "node ./src/Utils/seeder",
-    "data:destroy": "node ./src/Utils/seeder -d"
+    "data:import": "ts-node ./src/Utils/seeder.ts",
+    "data:destroy": "ts-node ./src/Utils/seeder.ts -d"
   },
   "keywords": [],
   "author": "",
