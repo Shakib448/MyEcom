@@ -13,6 +13,7 @@ type User {
   zip: String!
   location: String!
   token: String
+  isAdmin: Boolean
 }
 
 type Query {

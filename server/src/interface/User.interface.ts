@@ -13,6 +13,7 @@ export default interface UserInterface {
   state: string;
   zip: string;
   location: string;
+  isAdmin: boolean;
 }
 
 export const userValidationSchema = Joi.object({
@@ -33,6 +34,7 @@ export const userValidationSchema = Joi.object({
   state: Joi.string().label("State").required(),
   zip: Joi.string().label("Zip").required(),
   location: Joi.string().label("Location").required(),
+  isAdmin: Joi.boolean().label("Is Admin"),
 });
 
 export const authUserValidation = Joi.object({

@@ -16,6 +16,11 @@ const userSchema = new Schema<UserInterface>(
     state: { type: String, required: true },
     zip: { type: String, required: true },
     location: { type: String, required: true },
+    isAdmin: {
+      type: Boolean,
+      require: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -6,7 +6,7 @@ describe("User testing", () => {
   let token: string | undefined;
   beforeAll(async () => {
     await connectDB();
-    await User.deleteOne();
+    await User.deleteMany();
   });
   afterAll(async () => {
     await stopDB();
