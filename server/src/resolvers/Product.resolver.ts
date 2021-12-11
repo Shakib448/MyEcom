@@ -7,6 +7,15 @@ const resolverMap: IResolvers = {
       return await Product.find();
     },
   },
+  Mutation: {
+    createProduct: async (_: void, { product }: any) => {
+      return {
+        success: true,
+        message: "Product created successfully",
+        product,
+      };
+    },
+  },
 };
 
 export default resolverMap;

@@ -24,6 +24,16 @@ type Query {
   getAllProducts: [Product!]!
 }
 
+input ProductContent {
+  name: String!
+  image: String!
+  category: String!
+  description: String!
+  price: Float!
+  countInStock: Int!
+  numReviews: Int!
+}
+
 interface ProductMutationResponse {
   success: Boolean!
   message: String!
@@ -37,14 +47,5 @@ type ProductResponse implements ProductMutationResponse {
 }
 
 type Mutation {
-  createProduct(
-    name: String!
-    user: String!
-    image: String!
-    category: String!
-    description: String!
-    price: Float!
-    countInStock: Int!
-    numReviews: Int!
-  ): ProductResponse
+  createProduct(product: ProductContent!): ProductResponse
 }
