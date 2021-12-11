@@ -1,18 +1,37 @@
+type Reviews {
+  name: String
+  rating: Float
+  comment: String
+  user: String
+}
+
 type Product {
   id: ID!
+  user: String!
   name: String!
   image: String!
   description: String!
   brand: String!
   category: String!
   price: Float!
-  countInStock: Float!
+  countInStock: Int!
   rating: Float!
-  numReviews: Float!
+  reviews: [Reviews!]!
+  numReviews: Int!
 }
 
 type Query {
   getAllProducts: [Product!]!
+}
+
+input ProductContent {
+  name: String!
+  image: String!
+  category: String!
+  description: String!
+  price: Float!
+  countInStock: Int!
+  numReviews: Int!
 }
 
 interface ProductMutationResponse {
@@ -25,4 +44,8 @@ type ProductResponse implements ProductMutationResponse {
   success: Boolean!
   message: String!
   product: Product
+}
+
+type Mutation {
+  createProduct(product: ProductContent!): ProductResponse
 }

@@ -8,7 +8,7 @@ import { connectDB } from "../config/db";
 
 connectDB();
 
-const importData = async () => {
+const importData = async (): Promise<void> => {
   try {
     await Product.deleteMany();
     await User.deleteMany();
@@ -32,7 +32,7 @@ const importData = async () => {
   }
 };
 
-const destroyedData = async () => {
+const destroyedData = async (): Promise<void> => {
   try {
     await User.deleteMany();
     await Product.deleteMany();
