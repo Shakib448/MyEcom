@@ -1,12 +1,30 @@
 import { connectDB, stopDB } from "../config/db";
+import products from "../data/products.data";
+import users from "../data/users.data";
 import ProductInterface from "../interface/Product.interface";
+import Product from "../models/Product.model";
+import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphQLRequest";
 
 describe("Product Testing", () => {
   beforeAll(async () => {
     await connectDB();
+    await Product.deleteMany();
+    await User.deleteMany();
   });
   afterAll(async () => {
+    const createdUsers = await User.insertMany(users);
+
+    const adminUser = createdUsers[0]._id;
+
+    const sampleProducts = products.map((product) => {
+      return {
+        ...product,
+        user: adminUser,
+      };
+    });
+
+    await Product.insertMany(sampleProducts);
     await stopDB();
   });
 

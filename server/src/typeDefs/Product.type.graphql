@@ -1,5 +1,13 @@
+type Reviews {
+  name: String
+  rating: Float
+  comment: String
+  user: String
+}
+
 type Product {
   id: ID!
+  user: String!
   name: String!
   image: String!
   description: String!
@@ -8,6 +16,7 @@ type Product {
   price: Float!
   countInStock: Float!
   rating: Float!
+  reviews: [Reviews!]!
   numReviews: Float!
 }
 
