@@ -3,7 +3,7 @@ import "colors";
 
 const PORT = process.env.PORT || 4000;
 
-app.listen({ port: PORT }, (): void =>
+app.listen(PORT, (): void =>
   console.log(
     `GraphQL is now running on http://localhost:${PORT}/graphql`.magenta.italic
   )
