@@ -14,10 +14,10 @@ type Product {
   brand: String!
   category: String!
   price: Float!
-  countInStock: Float!
+  countInStock: Int!
   rating: Float!
   reviews: [Reviews!]!
-  numReviews: Float!
+  numReviews: Int!
 }
 
 type Query {
@@ -34,4 +34,17 @@ type ProductResponse implements ProductMutationResponse {
   success: Boolean!
   message: String!
   product: Product
+}
+
+type Mutation {
+  createProduct(
+    name: String!
+    user: String!
+    image: String!
+    category: String!
+    description: String!
+    price: Float!
+    countInStock: Int!
+    numReviews: Int!
+  ): ProductResponse
 }
