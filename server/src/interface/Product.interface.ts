@@ -26,5 +26,4 @@ export const productValidationSchema = Joi.object({
   category: Joi.string().label("Category").required(),
   price: Joi.number().label("Price").required(),
   countInStock: Joi.number().label("Count In Stock").required(),
-  numReviews: Joi.number().label("Number Reviews").required(),
 });

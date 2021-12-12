@@ -8,7 +8,7 @@ Object {
   "description": "sample description",
   "image": "https://i.ibb.co/q9QZnkL/airpods.jpg",
   "name": "simple",
-  "numReviews": 5,
+  "numReviews": 0,
   "price": 89.99,
   "rating": 0,
   "reviews": Array [],

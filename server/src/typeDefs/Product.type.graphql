@@ -25,14 +25,13 @@ type Query {
 }
 
 input ProductContent {
-  name: String!
-  image: String!
-  category: String!
-  description: String!
-  brand: String!
-  price: Float!
-  countInStock: Int!
-  numReviews: Int!
+  name: String
+  image: String
+  category: String
+  description: String
+  brand: String
+  price: Float
+  countInStock: Int
 }
 
 interface ProductMutationResponse {
@@ -49,4 +48,5 @@ type ProductResponse implements ProductMutationResponse {
 
 type Mutation {
   createProduct(product: ProductContent!): ProductResponse
+  updateProduct(id: ID!, input: ProductContent!): ProductResponse
 }

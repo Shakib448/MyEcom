@@ -82,7 +82,6 @@ describe("Product Testing", () => {
             category: "sample category"
             price: 89.99
             countInStock: 10
-            numReviews: 5
             description: "sample description"
             brand: "sample brand"
           }
