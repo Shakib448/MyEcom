@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Product Testing Product will be created with success message 1`] = `
+Object {
+  "brand": "sample brand",
+  "category": "sample category",
+  "countInStock": 10,
+  "description": "sample description",
+  "image": "https://i.ibb.co/q9QZnkL/airpods.jpg",
+  "name": "simple",
+  "numReviews": 5,
+  "price": 89.99,
+  "rating": 0,
+  "reviews": Array [],
+}
+`;
