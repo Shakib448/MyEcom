@@ -29,6 +29,7 @@ input ProductContent {
   image: String!
   category: String!
   description: String!
+  brand: String!
   price: Float!
   countInStock: Int!
   numReviews: Int!
