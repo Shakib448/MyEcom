@@ -75,7 +75,6 @@ const resolverMap: IResolvers = {
         throw new AuthenticationError("Not authorized, no token found");
       }
     },
-
     deleteProduct: async (_: void, { id }: any, { req }: any) => {
       const pd: any = await Product.findById(id);
       const { user }: any = await getAuthorizedUser(req);
