@@ -1,9 +1,9 @@
 import { UserInputError } from "apollo-server-core";
 import { IResolvers } from "@graphql-tools/utils";
+
 import { productValidationSchema } from "../interface/Product.interface";
 import Product from "../models/Product.model";
 import getAuthorizedUser from "../middleware/authMiddleware";
-import { AggregationCursor } from "mongoose";
 
 const resolverMap: IResolvers = {
   Query: {
@@ -49,22 +49,29 @@ const resolverMap: IResolvers = {
         );
       }
 
-      const product = await Product.findById(id);
+      const pd: any = await Product.findById(id);
       const { user }: any = await getAuthorizedUser(req);
 
-      console.log(product);
+      if (pd?.user.toString() === user._id.toString()) {
+        pd.name = input.name;
+        pd.image = input.image;
+        pd.description = input.description;
+        pd.brand = input.brand;
+        pd.category = input.category;
+        pd.countInStock = input.countInStock;
+        pd.price = input.price;
 
-      if (product?.user.toString() === user._id.toString() || user.isAdmin) {
-        // const updateProduct = await user.save();
-        // return {
-        //   success: true,
-        //   message: "Product updated successfully",
-        // };
+        const updateProduct = await pd.save();
+        return {
+          success: true,
+          message: "Product updated successfully",
+          product: updateProduct,
+        };
       } else {
-        // return {
-        //   success: false,
-        //   message: "Product Not Found!",
-        // };
+        return {
+          success: false,
+          message: "Product Not Found!",
+        };
       }
     },
   },
