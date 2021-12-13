@@ -49,4 +49,5 @@ type ProductResponse implements ProductMutationResponse {
 type Mutation {
   createProduct(product: ProductContent!): ProductResponse
   updateProduct(id: ID!, input: ProductContent!): ProductResponse
+  deleteProduct(id: ID!): ProductResponse
 }

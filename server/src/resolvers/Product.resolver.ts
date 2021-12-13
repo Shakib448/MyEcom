@@ -1,4 +1,4 @@
-import { UserInputError } from "apollo-server-core";
+import { UserInputError, AuthenticationError } from "apollo-server-core";
 import { IResolvers } from "@graphql-tools/utils";
 
 import { productValidationSchema } from "../interface/Product.interface";
@@ -52,6 +52,10 @@ const resolverMap: IResolvers = {
       const pd: any = await Product.findById(id);
       const { user }: any = await getAuthorizedUser(req);
 
+      if (!pd) {
+        throw new UserInputError("No Product Found!");
+      }
+
       if (pd?.user.toString() === user._id.toString()) {
         pd.name = input.name;
         pd.image = input.image;
@@ -68,10 +72,26 @@ const resolverMap: IResolvers = {
           product: updateProduct,
         };
       } else {
+        throw new AuthenticationError("Not authorized, no token found");
+      }
+    },
+
+    deleteProduct: async (_: void, { id }: any, { req }: any) => {
+      const pd: any = await Product.findById(id);
+      const { user }: any = await getAuthorizedUser(req);
+
+      if (!pd) {
+        throw new UserInputError("No Product Found!");
+      }
+
+      if (pd?.user.toString() === user._id.toString() || user.isAdmin) {
+        pd.deleteOne();
         return {
-          success: false,
-          message: "Product Not Found!",
+          success: true,
+          message: "Product deleted successfully",
         };
+      } else {
+        throw new AuthenticationError("Not authorized, no token found");
       }
     },
   },
