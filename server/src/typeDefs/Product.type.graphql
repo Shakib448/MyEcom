@@ -34,6 +34,11 @@ input ProductContent {
   countInStock: Int
 }
 
+input ReviewContent {
+  rating: Float
+  comment: String
+}
+
 interface ProductMutationResponse {
   success: Boolean!
   message: String!
@@ -48,6 +53,7 @@ type ProductResponse implements ProductMutationResponse {
 
 type Mutation {
   createProduct(product: ProductContent!): ProductResponse
+  createProductReview(id: ID!, input: ReviewContent!): ProductResponse
   updateProduct(id: ID!, input: ProductContent!): ProductResponse
   deleteProduct(id: ID!): ProductResponse
 }

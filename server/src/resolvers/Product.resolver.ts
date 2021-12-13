@@ -75,6 +75,45 @@ const resolverMap: IResolvers = {
         throw new AuthenticationError("Not authorized, no token found");
       }
     },
+
+    createProductReview: async (_: void, { id, input }: any, { req }: any) => {
+      const { rating, comment } = input;
+      const pd: any = await Product.findById(id);
+      const { user }: any = await getAuthorizedUser(req);
+
+      if (pd) {
+        const alreadyReviewed = pd.reviews.find(
+          (r: any) => r.user.toString() === user._id.toString()
+        );
+        if (alreadyReviewed) {
+          throw new UserInputError("Product already reviewed");
+        }
+
+        const review = {
+          name: `${user.firstName} ${user.lastName}`,
+          rating: Number(rating),
+          comment,
+          user: user._id,
+        };
+
+        pd.reviews.push(review);
+        pd.numReviews = pd.reviews.length;
+
+        pd.rating =
+          pd.reviews.reduce((acc: any, item: any) => item.rating + acc, 0) /
+          pd.reviews.length;
+
+        await pd.save();
+
+        return {
+          success: true,
+          message: "Review added successfully",
+        };
+      } else {
+        throw new UserInputError("Product not found!");
+      }
+    },
+
     deleteProduct: async (_: void, { id }: any, { req }: any) => {
       const pd: any = await Product.findById(id);
       const { user }: any = await getAuthorizedUser(req);
