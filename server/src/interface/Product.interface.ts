@@ -22,10 +22,7 @@ export const productValidationSchema = Joi.object({
   image: Joi.string().label("Image").required(),
   description: Joi.string().label("Description").required(),
   brand: Joi.string().label("Brand").required(),
-
   category: Joi.string().label("Category").required(),
   price: Joi.number().label("Price").required(),
   countInStock: Joi.number().label("Count In Stock").required(),
-  rating: Joi.number().label("Raring").required(),
-  numReviews: Joi.number().label("Number Reviews").required(),
 });

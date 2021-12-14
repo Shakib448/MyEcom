@@ -3,7 +3,7 @@ import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphQLRequest";
 import users from "../data/users.data";
 
-describe("User testing", () => {
+describe("(User Resolver)", () => {
   beforeAll(async () => {
     await connectDB();
     await User.deleteMany();
