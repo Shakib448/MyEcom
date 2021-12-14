@@ -6,7 +6,7 @@ import Product from "../models/Product.model";
 import User from "../models/User.model";
 import graphQLRequest from "../Utils/graphQLRequest";
 
-describe("Product Testing", () => {
+describe("(Product Resolvers)", () => {
   beforeAll(async () => {
     await connectDB();
     await Product.deleteMany();
@@ -117,6 +117,55 @@ describe("Product Testing", () => {
     expect(req.body.data.createProduct.success).toBe(true);
     expect(req.body.data.createProduct.product).toBeInstanceOf(Object);
     expect(req.body.data.createProduct.product).toMatchSnapshot();
+
+    expect(req.statusCode).toBe(200);
+  });
+
+  it("Product Review will be created with success message", async () => {
+    const resToken = await graphQLRequest(`mutation AuthUser{
+      authUser(email : "muktadir@example.com", password : "123456789"){
+        message
+        success
+        user{
+          token
+        }
+      }
+    }`);
+
+    const res = await graphQLRequest(`query {
+      getAllProducts {
+        id
+        name
+        image
+        description
+        brand
+        category
+        price
+        countInStock
+        rating
+        numReviews
+      }
+    }`);
+    const pdId = res.body.data.getAllProducts.map((item: any) => item.id);
+
+    const req = await graphQLRequest(
+      `mutation CreateReview{
+        createProductReview(id : "${pdId[0]}", input : {
+          rating : 3,
+          comment : "Not Bad"
+        }){
+          message
+          success
+        }
+      }`,
+      resToken.body.data.authUser.user.token
+    );
+
+    expect(req.body.data.createProductReview.success).toBe(true);
+    expect(req.body.data.createProductReview.message).toBe(
+      "Review added successfully"
+    );
+    expect(req.body.data.createProductReview).toMatchSnapshot();
 
     expect(req.statusCode).toBe(200);
   });

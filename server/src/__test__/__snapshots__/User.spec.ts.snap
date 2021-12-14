@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`User testing User should be delete with success message 1`] = `
+exports[`(User Resolver) User should be delete with success message 1`] = `
 Object {
   "message": "User deleted successfully",
   "success": true,
 }
 `;
 
-exports[`User testing User will be created with success message 1`] = `
+exports[`(User Resolver) User will be created with success message 1`] = `
 Object {
   "message": "User created successfully",
   "success": true,
@@ -26,7 +26,7 @@ Object {
 }
 `;
 
-exports[`User testing User will be updated with Bearer token also find by id with success message 1`] = `
+exports[`(User Resolver) User will be updated with Bearer token also find by id with success message 1`] = `
 Object {
   "message": "User updated successfully",
   "success": true,

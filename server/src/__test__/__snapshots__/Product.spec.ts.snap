@@ -1,6 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Product Testing Product will be created with success message 1`] = `
+exports[`(Product Resolvers) Product Review will be created with success message 1`] = `
+Object {
+  "message": "Review added successfully",
+  "success": true,
+}
+`;
+
+exports[`(Product Resolvers) Product will be created with success message 1`] = `
 Object {
   "brand": "sample brand",
   "category": "sample category",
@@ -15,14 +22,14 @@ Object {
 }
 `;
 
-exports[`Product Testing Product will be deleted by the admin user with success message 1`] = `
+exports[`(Product Resolvers) Product will be deleted by the admin user with success message 1`] = `
 Object {
   "message": "Product deleted successfully",
   "success": true,
 }
 `;
 
-exports[`Product Testing Product will be deleted by the user with success message 1`] = `
+exports[`(Product Resolvers) Product will be deleted by the user with success message 1`] = `
 Object {
   "message": "Product deleted successfully",
   "success": true,
