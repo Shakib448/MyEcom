@@ -14,3 +14,17 @@ Object {
   "reviews": Array [],
 }
 `;
+
+exports[`Product Testing Product will be deleted by the admin user with success message 1`] = `
+Object {
+  "message": "Product deleted successfully",
+  "success": true,
+}
+`;
+
+exports[`Product Testing Product will be deleted by the user with success message 1`] = `
+Object {
+  "message": "Product deleted successfully",
+  "success": true,
+}
+`;

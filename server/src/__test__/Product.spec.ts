@@ -56,6 +56,7 @@ describe("Product Testing", () => {
       expect(typeof item.price).toBe("number");
       expect(typeof item.countInStock).toBe("number");
       expect(typeof item.rating).toBe("number");
+      expect(typeof item.reviews).toBe("array");
       expect(typeof item.numReviews).toBe("number");
     });
     expect(Array.isArray(req.body.data.getAllProducts)).toBe(true);
@@ -116,6 +117,216 @@ describe("Product Testing", () => {
     expect(req.body.data.createProduct.success).toBe(true);
     expect(req.body.data.createProduct.product).toBeInstanceOf(Object);
     expect(req.body.data.createProduct.product).toMatchSnapshot();
+
+    expect(req.statusCode).toBe(200);
+  });
+
+  it("Product will be updated with success message", async () => {
+    const res = await graphQLRequest(`query {
+      getAllProducts {
+        id
+        name
+        image
+        description
+        brand
+        category
+        price
+        countInStock
+        rating
+        numReviews
+      }
+    }`);
+    const pdId = res.body.data.getAllProducts.map((item: any) => item.id);
+
+    const resToken = await graphQLRequest(`mutation AuthUser{
+      authUser(email : "muktadir@example.com", password : "123456789"){
+        message
+        success
+        user{
+          token
+        }
+      }
+    }`);
+
+    const req = await graphQLRequest(
+      `mutation UpdateProduct {
+        updateProduct(
+          id: "${pdId[0]}"
+          input: {
+            name: "Update name"
+            brand: "Update Brand"
+            category: "Update Category"
+            image : "https://i.ibb.co/q9QZnkL/airpods.jpg"
+            countInStock: 2
+            price: 99.9
+            description: "Update Description"
+          }
+        ) {
+          message
+          success
+          product {
+            brand
+            category
+            countInStock
+            description
+            image
+            name
+            numReviews
+            price
+            rating
+            reviews {
+              comment
+              name
+              rating
+              user
+            }
+          }
+        }
+      }`,
+      resToken.body.data.authUser.user.token
+    );
+
+    expect(req.body.data.updateProduct.message).toBe(
+      "Product updated successfully"
+    );
+    expect(req.body.data.updateProduct.success).toBe(true);
+    expect(req.body.data.updateProduct.product).toBeInstanceOf(Object);
+
+    expect(req.statusCode).toBe(200);
+  });
+
+  it("Product will be deleted by the user with success message", async () => {
+    const res = await graphQLRequest(`query {
+      getAllProducts {
+        id
+        name
+        image
+        description
+        brand
+        category
+        price
+        countInStock
+        rating
+        numReviews
+      }
+    }`);
+    const pdId = res.body.data.getAllProducts.map((item: any) => item.id);
+    const resToken = await graphQLRequest(`mutation AuthUser{
+      authUser(email : "muktadir@example.com", password : "123456789"){
+        message
+        success
+        user{
+          token
+        }
+      }
+    }`);
+    const req = await graphQLRequest(
+      `mutation DeleteProduct{
+        deleteProduct(id : "${pdId[0]}"){
+          message
+          success
+        }
+      }`,
+      resToken.body.data.authUser.user.token
+    );
+
+    expect(req.body.data.deleteProduct.success).toBe(true);
+    expect(req.body.data.deleteProduct.message).toBe(
+      "Product deleted successfully"
+    );
+    expect(req.body.data.deleteProduct).toMatchSnapshot();
+
+    expect(req.statusCode).toBe(200);
+  });
+
+  it("Product will be deleted by the admin user with success message", async () => {
+    const resUserToken = await graphQLRequest(`mutation AuthUser{
+      authUser(email : "muktadir@example.com", password : "123456789"){
+        message
+        success
+        user{
+          token
+        }
+      }
+    }`);
+
+    await graphQLRequest(
+      `mutation CreateProduct {
+        createProduct(
+          product: {
+            name: "simple"
+            image: "https://i.ibb.co/q9QZnkL/airpods.jpg"
+            category: "sample category"
+            price: 89.99
+            countInStock: 10
+            description: "sample description"
+            brand: "sample brand"
+          }
+        ) {
+          success
+          message
+          product{
+            brand
+            category
+            countInStock
+            description
+            image
+            name
+            numReviews
+            price
+            rating
+            reviews {
+              comment
+              name
+              rating
+              user
+            }
+          }
+        }
+      }`,
+      resUserToken.body.data.authUser.user.token
+    );
+    const res = await graphQLRequest(`query {
+      getAllProducts {
+        id
+        name
+        image
+        description
+        brand
+        category
+        price
+        countInStock
+        rating
+        numReviews
+      }
+    }`);
+    const pdId = res.body.data.getAllProducts.map((item: any) => item.id);
+
+    const resAdminToken = await graphQLRequest(`mutation AuthUser{
+      authUser(email : "admin@example.com", password : "123456789"){
+        message
+        success
+        user{
+          token
+        }
+      }
+    }`);
+
+    const req = await graphQLRequest(
+      `mutation DeleteProduct{
+        deleteProduct(id : "${pdId[0]}"){
+          message
+          success
+        }
+      }`,
+      resAdminToken.body.data.authUser.user.token
+    );
+
+    expect(req.body.data.deleteProduct.success).toBe(true);
+    expect(req.body.data.deleteProduct.message).toBe(
+      "Product deleted successfully"
+    );
+    expect(req.body.data.deleteProduct).toMatchSnapshot();
 
     expect(req.statusCode).toBe(200);
   });
