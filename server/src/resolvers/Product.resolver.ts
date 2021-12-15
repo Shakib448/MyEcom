@@ -29,20 +29,21 @@ const resolverMap: IResolvers = {
 
       const userProduct: any = await User.findById(user._id);
 
-      console.log(user);
-
       const newProduct = await Product.create({
         ...product,
         user: user._id,
       });
-
-      console.log(newProduct);
 
       if (newProduct.user.toString() === user._id.toString()) {
         const product = {
           product_id: newProduct._id,
         };
         userProduct.products.push(product);
+        userProduct.populate("products", (err: any) => {
+          userProduct.products.map(async (item: any) => {
+            await Product.find({ _id: item.product_id });
+          });
+        });
         await userProduct.save();
       }
 
