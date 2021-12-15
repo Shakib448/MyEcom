@@ -3,6 +3,7 @@ import { IResolvers } from "@graphql-tools/utils";
 
 import { productValidationSchema } from "../interface/Product.interface";
 import Product from "../models/Product.model";
+import User from "../models/User.model";
 import getAuthorizedUser from "../middleware/authMiddleware";
 
 const resolverMap: IResolvers = {
@@ -26,10 +27,32 @@ const resolverMap: IResolvers = {
 
       const { user }: any = await getAuthorizedUser(req);
 
+      const userProduct: any = await User.findById(user._id);
+
       const newProduct = await Product.create({
         ...product,
         user: user._id,
       });
+
+      if (newProduct.user.toString() === user._id.toString()) {
+        const product = {
+          product_id: newProduct._id,
+          user: user._id,
+          name: newProduct.name,
+          image: newProduct.image,
+          description: newProduct.description,
+          brand: newProduct.brand,
+          category: newProduct.category,
+          price: newProduct.price,
+          countInStock: newProduct.countInStock,
+          rating: newProduct.rating,
+          numReviews: newProduct.numReviews,
+          reviews: [...newProduct.reviews],
+        };
+        userProduct.products.push(product);
+
+        await userProduct.save();
+      }
 
       return {
         success: true,

@@ -14,6 +14,7 @@ export default interface UserInterface {
   zip: string;
   location: string;
   isAdmin: boolean;
+  products: any;
 }
 
 export const userValidationSchema = Joi.object({

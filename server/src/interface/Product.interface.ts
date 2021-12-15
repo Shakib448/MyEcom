@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 export default interface ProductInterface {
+  product_id?: string;
   id: string;
   user: any;
   name: string;
