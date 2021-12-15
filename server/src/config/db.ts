@@ -3,7 +3,7 @@ import "colors";
 
 const dbURL = "mongodb://localhost:27017/myEcom";
 
-export async function connectDB(): Promise<void> {
+export async function connectDB(): Promise<any> {
   await mongoose.connect(dbURL);
   console.log("Database connected successfully".cyan.italic);
 }

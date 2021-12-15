@@ -37,13 +37,20 @@ const resolverMap: IResolvers = {
       if (newProduct.user.toString() === user._id.toString()) {
         const product = {
           product_id: newProduct._id,
+          user: user._id,
+          name: newProduct.name,
+          image: newProduct.image,
+          description: newProduct.description,
+          brand: newProduct.brand,
+          category: newProduct.category,
+          price: newProduct.price,
+          countInStock: newProduct.countInStock,
+          rating: newProduct.rating,
+          numReviews: newProduct.numReviews,
+          reviews: [...newProduct.reviews],
         };
         userProduct.products.push(product);
-        userProduct.populate("products", (err: any) => {
-          userProduct.products.map(async (item: any) => {
-            await Product.find({ _id: item.product_id });
-          });
-        });
+
         await userProduct.save();
       }
 

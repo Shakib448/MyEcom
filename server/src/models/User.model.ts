@@ -6,9 +6,28 @@ import UserInterface from "../interface/User.interface";
 const productSchema = new Schema({
   product_id: {
     type: mongoose.Schema.Types.ObjectId,
-    require: true,
+    require: false,
     ref: "Product",
   },
+  user: { type: String },
+  name: { type: String },
+  image: { type: String },
+  description: { type: String },
+  cloudinary_id: { type: String },
+  brand: { type: String },
+  category: { type: String },
+  price: { type: Number },
+  countInStock: { type: Number },
+  rating: { type: Number },
+  numReviews: { type: Number },
+  reviews: [
+    {
+      name: { type: String },
+      comment: { type: String },
+      rating: { type: Number },
+      user: { type: String },
+    },
+  ],
 });
 
 const userSchema = new Schema<UserInterface>(
