@@ -102,12 +102,18 @@ const resolverMap: IResolvers = {
     createProductReview: async (_: void, { id, input }: any, { req }: any) => {
       const { rating, comment } = input;
       const pd: any = await Product.findById(id);
+
       const { user }: any = await getAuthorizedUser(req);
+
+      // const updateUserReview: any = await User.find()
+      //   .select("products -_id")
+      //   .where({ $or: [{ products: { $elemMatch: { product_id: id } } }] });
 
       if (pd) {
         const alreadyReviewed = pd.reviews.find(
           (r: any) => r.user.toString() === user._id.toString()
         );
+
         if (alreadyReviewed) {
           throw new UserInputError("Product already reviewed");
         }
@@ -119,6 +125,19 @@ const resolverMap: IResolvers = {
           user: user._id,
         };
 
+        // if (updateUserReview) {
+        //   updateUserReview.reviews.push(review);
+        //   updateUserReview.numReviews = updateUserReview.reviews.length;
+
+        //   updateUserReview.rating =
+        //     updateUserReview.reviews.reduce(
+        //       (acc: any, item: any) => item.rating + acc,
+        //       0
+        //     ) / updateUserReview.reviews.length;
+        //   await updateUserReview.save();
+        // }
+
+        // Product Review
         pd.reviews.push(review);
         pd.numReviews = pd.reviews.length;
 
@@ -127,6 +146,7 @@ const resolverMap: IResolvers = {
           pd.reviews.length;
 
         await pd.save();
+        // Update User Review
 
         return {
           success: true,
